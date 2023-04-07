@@ -347,7 +347,7 @@ copyuvm(pde_t *pgdir, uint sz)
     }
     pa=PTE_ADDR(*pte);
     flags=PTE_FLAGS(*pte);
-    if((mem=kalloc()==0)){
+    if((mem=kalloc())==0){
       goto bad;
     }
     memmove(mem,(char *)P2V(pa),PGSIZE);
