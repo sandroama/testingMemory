@@ -69,8 +69,8 @@ exec(char *path, char **argv)
   if((sz = allocuvm(pgdir, sz, sz + PGSIZE)) == 0)
     goto bad;
   clearpteu(pgdir, (char*)(sz - PGSIZE));
-  sp = STACKBASE;
-  if(allocuvm(pgdir,sp-PGSIZE-4096,sp)==0)
+  sp = STACKBASE+PGSIZE;
+  if(allocuvm(pgdir,sp-PGSIZE,sp)==0)
     goto bad;
   curproc->STACKPAGES=1;
 
