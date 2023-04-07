@@ -70,7 +70,7 @@ exec(char *path, char **argv)
     goto bad;
   clearpteu(pgdir, (char*)(sz - PGSIZE));
   sp = STACKBASE;
-  if(allocuvm(pgdir,sp-PGSIZE,sp)==0)
+  if(allocuvm(pgdir,sp-PGSIZE-4096,sp)==0)
     goto bad;
   curproc->STACKPAGES=1;
 
