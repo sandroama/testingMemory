@@ -66,14 +66,21 @@ exec(char *path, char **argv)
   // Make the first inaccessible.  Use the second as the user stack.
   sp=0;
   sz = PGROUNDUP(sz);
-  if((sz = allocuvm(pgdir, sz, sz + PGSIZE)) == 0)
+  if((sz = allocuvm(pgdir, sz, sz + PGSIZE)) == 0){
     goto bad;
-  clearpteu(pgdir, (char*)(sz - PGSIZE));
-  sp = STACKBASE;
-  if(allocuvm(pgdir,sp-PGSIZE-4096,sp)==0)
-    goto bad;
-  curproc->STACKPAGES=1;
+  }
 
+  clearpteu(pgdir, (char*)(sz - PGSIZE));
+  sp = STAK;
+
+  if(allocuvm(pgdir,sp-PGSIZE-4096,sp)==0){
+    goto bad;
+  }
+  
+  
+  
+  curproc->STACKPAGES=1;
+  // !!! CHANGING !!!
   // Push argument strings, prepare rest of stack in ustack.
   for(argc = 0; argv[argc]; argc++) {
     if(argc >= MAXARG)

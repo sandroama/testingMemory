@@ -80,7 +80,7 @@ trap(struct trapframe *tf)
             cpuid(), tf->cs, tf->eip);
     lapiceoi();
     break;
-  
+  // !!! CHANGING !!!
   case T_PGFLT:
     sp=tf->esp;
     if((rcr2()<sp)&&(rcr2()>(sp-PGSIZE))){
@@ -107,7 +107,7 @@ trap(struct trapframe *tf)
             tf->err, cpuid(), tf->eip, rcr2());
     myproc()->killed = 1;
   }
-
+// !!! CHANGING !!!
   // Force process exit if it has been killed and is in user space.
   // (If it is still executing in the kernel, let it keep running
   // until it gets to the regular system call return.)

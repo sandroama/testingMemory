@@ -24,7 +24,7 @@ fetchint(uint addr, int *ip)
   *ip = *(int*)(addr);
   return 0;
 }
-
+// !!! CHANGING !!!
 // Fetch the nul-terminated string at addr from the current process.
 // Doesn't actually copy the string - just sets *pp to point at it.
 // Returns length of string, not including nul.
@@ -38,21 +38,21 @@ fetchstr(uint addr, char **pp)
   //   return -1;
   *pp = (char*)addr;
   //ep = (char*)curproc->sz;
-  ep=(char *)STACKBASE;
+  ep=(char *)STAK;
   for(s = *pp; s < ep; s++){
     if(*s == 0)
       return s - *pp;
   }
   return -1;
 }
-
+// !!! CHANGING !!!
 // Fetch the nth 32-bit system call argument.
 int
 argint(int n, int *ip)
 {
   return fetchint((myproc()->tf->esp) + 4 + 4*n, ip);
 }
-
+// !!! CHANGING !!!
 // Fetch the nth word-sized system call argument as a pointer
 // to a block of memory of size bytes.  Check that the pointer
 // lies within the process address space.
@@ -72,6 +72,8 @@ argptr(int n, char **pp, int size)
   *pp = (char*)i;
   return 0;
 }
+// !!! CHANGING !!!
+
 
 // Fetch the nth word-sized system call argument as a string pointer.
 // Check that the pointer is valid and the string is nul-terminated.

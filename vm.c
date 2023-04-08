@@ -332,13 +332,14 @@ copyuvm(pde_t *pgdir, uint sz)
     if((mem = kalloc()) == 0)
       goto bad;
     memmove(mem, (char*)P2V(pa), PGSIZE);
+    // !!! CHANGING !!!
     if(mappages(d, (void*)i, PGSIZE, V2P(mem), flags) < 0) {
       //kfree(mem);
       goto bad;
     }
   }
 
-  for(i=(STACKBASE - myproc()->STACKPAGES*PGSIZE+4);i<STACKBASE; i+=PGSIZE){
+  for(i=(STAK - myproc()->STACKPAGES*PGSIZE+4);i<STAK; i+=PGSIZE){
     if((pte=walkpgdir(pgdir,(void *) i,0))==0){
       panic("copyuvm2: pte should exist");
     }
@@ -361,6 +362,7 @@ bad:
   freevm(d);
   return 0;
 }
+// !!! CHANGING !!!
 
 //PAGEBREAK!
 // Map user virtual address to kernel address.
