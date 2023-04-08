@@ -14,9 +14,6 @@ extern uint vectors[];  // in vectors.S: array of 256 entry pointers
 struct spinlock tickslock;
 uint ticks;
 
-uint sp;
-pde_t *pgdir;
-
 void
 tvinit(void)
 {
@@ -80,17 +77,6 @@ trap(struct trapframe *tf)
             cpuid(), tf->cs, tf->eip);
     lapiceoi();
     break;
-  // !!! CHANGING !!!
-  case T_PGFLT:
-    sp=tf->esp;
-    if((rcr2()<sp)&&(rcr2()>(sp-PGSIZE))){
-      if((allocuvm(myproc()->pgdir,sp-PGSIZE,sp))==0){
-        cprintf("");
-        cprintf("\n no more memory, exiting program...\n");
-        exit();
-      }
-    }
-    break;
 
   //PAGEBREAK: 13
   default:
@@ -107,7 +93,7 @@ trap(struct trapframe *tf)
             tf->err, cpuid(), tf->eip, rcr2());
     myproc()->killed = 1;
   }
-// !!! CHANGING !!!
+
   // Force process exit if it has been killed and is in user space.
   // (If it is still executing in the kernel, let it keep running
   // until it gets to the regular system call return.)
