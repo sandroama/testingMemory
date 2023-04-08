@@ -5,14 +5,14 @@ void recursive_function(int count) {
   if (count % 1000 == 0) {
     printf(1, "Stack depth: %d\n", count);
   }
-  char buffer[1024];
+  char buffer[16384];
   memset(buffer, 0, sizeof(buffer));
   recursive_function(count + 1);
 }
 
 int main() {
   printf(1, "Allocating memory on the heap...\n");
-  char *heap_memory = (char *)malloc(1024 * 1024);
+  char *heap_memory = (char *)malloc(16384 * 16384);
   if (heap_memory == 0) {
     printf(1, "Failed to allocate heap memory\n");
     exit();
